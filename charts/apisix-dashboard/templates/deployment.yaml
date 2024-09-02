@@ -82,7 +82,7 @@ spec:
               name: schema-json
               subPath: {{ .key }}
           {{- end}}
-          {{- if .Values.config.conf.etcd.mtlsExistingSecret }}
+          {{- if .Values.config.conf.mtlsExistingSecret }}
             - mountPath: /etc/etcd
               name: etcd-config
           {{- end}}
@@ -95,9 +95,9 @@ spec:
             name: {{ .name }}
           name: schema-json
       {{- end}}
-      {{- if .Values.config.conf.etcd.mtlsExistingSecret }}
+      {{- if .Values.config.conf.mtlsExistingSecret }}
         - secret:
-            secretName: {{ .Values.config.conf.etcd.mtlsExistingSecret }}
+            secretName: {{ .Values.config.conf.mtlsExistingSecret }}
           name: etcd-config
       {{- end}}
       {{- with .Values.nodeSelector }}

@@ -46,6 +46,23 @@ data:
           {{- toYaml .mtls | nindent 10 }}
         {{- end }}
       {{- end }}
+      {{- with .nats }}
+      nats:
+        endpoints:
+          {{- range .endpoints }}
+          - {{ . }}
+          {{- end }}
+        {{- if .username }}
+        username: {{ .username }}
+        {{- end }}
+        {{- if .password }}
+        password: {{ .password }}
+        {{- end }}
+        {{- if .mtls }}
+        mtls:
+          {{- toYaml .mtls | nindent 10 }}
+        {{- end }}
+      {{- end }}
       {{- with .log }}
       log:
         error_log:

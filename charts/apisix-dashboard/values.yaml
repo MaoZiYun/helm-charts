@@ -23,12 +23,12 @@ replicaCount: 1
 
 image:
   # -- Apache APISIX Dashboard image repository
-  repository: apache/apisix-dashboard
+  repository: ghcr.io/maoziyun/apisix-dashboard
   # -- Apache APISIX Dashboard image pull policy
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   # Apache APISIX Dashboard image tag (immutable tags are recommended)
-  tag: 3.0.0-alpine
+  tag: lastest
 
 # -- Docker registry secret names as an array
 imagePullSecrets: []
@@ -61,6 +61,8 @@ priorityClassName: ""
 podSecurityContext: {}
   # fsGroup: 2000
 
+# -- Specifies a secret to be mounted on /etc/etcd for mtls usage
+mtlsExistingSecret: ""
 # -- Set the securityContext for Apache APISIX Dashboard container
 securityContext: {}
   # capabilities:
@@ -85,6 +87,21 @@ config:
       host: 0.0.0.0
       # -- The port on which the Manager API should listen.
       port: 9000
+    nats:
+      # -- Supports defining multiple etcd host addresses for an etcd cluster
+      endpoints:
+        - nats:127.0.0.1:4222
+      # -- Specifies etcd basic auth username if enable etcd auth
+      username: ~
+      # -- Specifies etcd basic auth password if enable etcd auth
+      password: ~
+
+      # MTLS configuration used for external etcd instances
+      mtls:
+        {}
+        # key_file: /etc/etcd/server-client.key
+        # cert_file: /etc/etcd/server-client.crt
+        # ca_file: /etc/etcd/server-ca.crt
     etcd:
       # -- Supports defining multiple etcd host addresses for an etcd cluster
       endpoints:
@@ -95,9 +112,6 @@ config:
       username: ~
       # -- Specifies etcd basic auth password if enable etcd auth
       password: ~
-
-      # -- Specifies a secret to be mounted on /etc/etcd for mtls usage
-      mtlsExistingSecret: ""
 
       # MTLS configuration used for external etcd instances
       mtls:
