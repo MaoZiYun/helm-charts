@@ -71,7 +71,10 @@ spec:
           - name: SQL_LITE
             value: "false"
           - name: DB_PORT
-            value: "5432"
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-db-secret
+                key: port
           - name: DB_HOST
             valueFrom:
               secretKeyRef:
@@ -94,6 +97,58 @@ spec:
                 key: password
           - name: REDIS_ENABLED
             value: {{ .Values.server.redis.enabled | quote }}
+          {{- if .Values.server.redis.enabled }}
+          - name: REDIS_HOST
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-redis-db-secret
+                key: host
+          - name: REDIS_PORT
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-redis-db-secret
+                key: port
+          - name: REDIS_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-redis-db-secret
+                key: username
+          - name: REDIS_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-redis-db-secret
+                key: password
+          {{- end }}
+          - name: NATS_URL
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-nats-secret
+                key: url
+          - name: NATS_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-nats-secret
+                key: username
+          - name: NATS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-nats-secret
+                key: password
+          - name: NATS_CA_FILE
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-nats-secret
+                key: caFile
+          - name: NATS_CERT_FILE
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-nats-secret
+                key: certFile
+          - name: NATS_KEY_FILE
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-nats-secret
+                key: keyFile
           - name: ADMIN_INIT
             value: "false"
           - name: COOKIE_SECRETS
