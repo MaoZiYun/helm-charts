@@ -1,0 +1,198 @@
+# Default values for porter.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+image:
+  repository: maoziyun/porter:v0.60.1
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "v0.53.0"
+server:
+  # initInCluster should be set to `true` if you want a default project created on the Porter instance 
+  # to automatically connect to the k8s cluster that the Porter instance is running in. 
+  initInCluster: false
+  port: 8080
+  # setAdminRBAC allows the Porter dashboard system:masters access to the cluster, otherwise a separate clusterrole
+  # is created for the Porter user.
+  setAdminRBAC: false
+  postgres: {}
+  # if bringing your own postgres:
+  # port: 5432
+  # host: my-host
+  # name: porter
+  # user: porter
+  # password: porter
+  cookieSecret: "random_hash_key_;random_block_key"
+  dbEncryptionKey: "__random_strong_encryption_key__"
+  # if key rotation is necessary
+  # oldDBEncryptionKey: "__random_strong_encryption_key__"
+  # newDBEncryptionKey: "__random_strong_encryption_key__"
+  tokenEncryptionKey: "secret"
+  url: http://localhost:8080
+  gateWayUpstreamID: ""
+  buildClusterID: ""
+  redis: 
+    enabled: true
+  additionalEnv: {}
+  # COOKIE_INSECURE: true
+  # ADMIN_EMAIL: test@example.com
+
+  defaultHelmAppRepo: "https://charts.getporter.dev"
+  defaultHelmAddOnRepo: "https://chart-addons.getporter.dev"
+  # INTEGRATIONS:
+  basicLogin:
+    enabled: true
+  slack:
+    enabled: false
+    # clientId: slack-client-id
+    # clientSecret: slack-client-secret
+  githubLogin:
+    enabled: false
+    # clientId: github-client-id
+    # clientSecret: github-client-secret
+  googleLogin:
+    enabled: false
+    # clientId: google-client-id
+    # clientSecret: google-client-secret
+    # restrictedDomain: google-restricted-domain
+  githubApp:
+    enabled: false
+    # clientId: github-app-client-id
+    # clientSecret: github-app-client-secret
+    # webhookSecret: github-app-webhook-secret
+    # name: github-app-name
+    # id: github-app-id
+    # privateKey: github_app_private_key.pem
+  gitlab:
+    enabled: false
+# The worker pool is a component of the Porter deployment which contains
+# a list of jobs that might be trigerred in the form of Kubernetes CronJobs
+# at configurable intervals to do meaningful tasks.
+#
+# The worker pool exposes an HTTP API to enqueue and execute jobs as worker nodes.
+workerPool:
+  enabled: false
+  # maximum number of worker nodes to run at once
+  maxWorkers: 10
+  # maximum number of jobs in the worker pool queue
+  maxQueue: 100
+  # port at which the worker pool should expose its HTTP API
+  port: 3000
+  # Docker image of the worker pool
+  image:
+    repository: public.ecr.aws/o1j4x7p4/worker-pool
+    pullPolicy: IfNotPresent
+    tag: "v0.53.0"
+  # list of worker jobs and their individual configuration
+  jobs:
+    # job to periodically delete older revisions of Helm releases in a cluster
+    helmRevisions:
+      enabled: false
+      # cron schedule for the job to run
+      schedule: "0 * * * *"
+      # number of revisions to keep for a helm release
+      revisionsCount: 20
+      # following are the required AWS and S3 credentials that will be used to
+      # backup old revisions before deleting them from the cluster
+      awsAccessKeyId: ""
+      awsSecretAccessKey: ""
+      awsRegion: ""
+      s3BucketName: ""
+      s3EncryptionKey: ""
+    # job to periodically check and delete older preview deployments from a 
+    # cluster based on a TTL set on a preview environment
+    previewTtl:
+      enabled: false
+      # cron schedule for the job to run
+      schedule: "0 * * * *"
+      # TTL for every preview deployment in hours, minutes, and/or seconds.
+      #
+      # the minimum allowed value is "24h" (1 day) and maximum allowed value is "720h" (30 days)
+      ttl: ""
+  # Kubernetes resource limits for the worker pool
+  resources:
+    limits:
+      cpu: 200m
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      memory: 512Mi
+  # advanced kubernetes/helm configuration values
+  imagePullSecrets: []
+  podAnnotations: {}
+  podSecurityContext: {}
+  securityContext: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+podAnnotations: {}
+podSecurityContext: {}
+# fsGroup: 2000
+
+securityContext: {}
+# capabilities:
+#   drop:
+#   - ALL
+# readOnlyRootFilesystem: true
+# runAsNonRoot: true
+# runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+ingress:
+  enabled: false
+  annotations: {}
+  # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: []
+  tls:
+  # secret name must be porter-cert-tls
+  #  - secretName: porter-cert-tls
+  #  hosts:
+  #    - chart-example.local
+resources:
+  limits:
+    cpu: 200m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 512Mi
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+nodeSelector: {}
+tolerations: []
+affinity: {}
+postgresql:
+  enabled: false
+  ssl_enabled: false
+  postgresqlDatabase: porter
+  postgresqlUsername: porter
+  postgresqlPassword: porter
+  service:
+    port: 5432
+  image:
+    # see https://www.postgresql.org/support/versioning/
+    tag: "11.12.0"
+  postgresqlDataDir: "/data/pgdata"
+  persistence:
+    enabled: true
+    mountPath: "/data/"

@@ -1,0 +1,33 @@
+{{- if .Values.workerPool.enabled -}}
+{{- if .Values.workerPool.jobs.previewTtl.enabled -}}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: preview-deployments-ttl-deleter
+spec:
+  schedule: {{ .Values.workerPool.jobs.helmRevisions.schedule | quote }}
+  jobTemplate:
+    spec:
+      backoffLimit: 5
+      template:
+        spec:
+          serviceAccountName: {{ include "porter.fullname" . }}-worker-pool
+          metadata:
+            labels:
+              app.kubernetes.io/name: preview-deployments-ttl-deleter
+              app.kubernetes.io/instance: {{ .Release.Name }}
+              app.kubernetes.io/part-of: worker-pool
+          containers:
+            - name: job
+              image: busybox
+              imagePullPolicy: IfNotPresent
+              command:
+              - curl 
+              args:
+              - -X 
+              - POST 
+              - "{{ include "porter.fullname" . }}-worker-pool.{{ .Release.Namespace }}/enqueue/preview-deployments-ttl-deleter"
+          restartPolicy: Never
+          concurrencyPolicy: Forbid
+{{- end -}}
+{{- end -}}

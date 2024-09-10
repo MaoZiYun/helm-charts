@@ -1,0 +1,11 @@
+apiVersion: v2
+appVersion: 0.11.1
+dependencies:
+- condition: postgresql.enabled
+  name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 10.16.2
+description: A Helm chart for Kubernetes
+name: porter
+type: application
+version: 0.190.0
