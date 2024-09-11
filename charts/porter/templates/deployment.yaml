@@ -71,7 +71,7 @@ spec:
           - name: SQL_LITE
             value: "false"
           - name: DB_PORT
-            value: {{ .Values.server.postgres.port }}
+            value: {{ .Values.server.postgres.port | quote}}
           - name: DB_HOST
             valueFrom:
               secretKeyRef:
@@ -101,7 +101,7 @@ spec:
                 name: {{ include "porter.fullname" . }}-redis-db-secret
                 key: host
           - name: REDIS_PORT
-            value: {{ .Values.server.redis.port }}
+            value: {{ .Values.server.redis.port | quote}}
           - name: REDIS_USER
             valueFrom:
               secretKeyRef:
@@ -261,10 +261,6 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-          {{- if .Values.ingress.enabled }}
-          - name: wss-ssl-certificate
-            mountPath: /etc/wss
-          {{- end }}
           {{- if .Values.server.githubApp.enabled }}
           - name: github-app-private-key
             mountPath: /porter/docker
@@ -276,11 +272,6 @@ spec:
           - name: certValue
             mountPath: /porter/mtls
       volumes:
-      {{- if .Values.ingress.enabled }}
-      - name: wss-ssl-certificate
-        secret:
-          secretName: porter-cert-tls
-      {{- end }}
       {{- if .Values.server.githubApp.enabled }}
       - name: github-app-private-key
         secret:
