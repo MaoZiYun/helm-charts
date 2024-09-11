@@ -265,12 +265,8 @@ spec:
           - name: github-app-private-key
             mountPath: /porter/docker
           {{- end }}
-          - name: caValue
-            mountPath: /porter/mtls
-          - name: keyValue
-            mountPath: /porter/mtls
-          - name: certValue
-            mountPath: /porter/mtls
+          - mountPath: /porter/mtls
+            name: nat-config
       volumes:
       {{- if .Values.server.githubApp.enabled }}
       - name: github-app-private-key
@@ -282,19 +278,7 @@ spec:
       {{- end }}
         secret:
           secretName: {{ include "porter.fullname" . }}-nats-secret
-          items:
-          - key: caValue
-            path: ca.pem
-        secret:
-          secretName: {{ include "porter.fullname" . }}-nats-secret
-          items:
-          - key: certValue
-            path: client.pem
-        secret:
-          secretName: {{ include "porter.fullname" . }}-nats-secret
-          items:
-          - key: keyValue
-            path: client-key.pem
+        name: nat-config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
