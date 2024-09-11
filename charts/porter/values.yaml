@@ -43,9 +43,9 @@ server:
   # url: 5432
   # username: porter
   # password: porter
-  # caValue: ""
-  # keyValue: ""
-  # certValue: ""
+  # caBase64: ""
+  # keyBase64: ""
+  # certBase64: ""
 
   additionalEnv: {}
   # COOKIE_INSECURE: true
@@ -76,7 +76,7 @@ server:
     # webhookSecret: github-app-webhook-secret
     # name: github-app-name
     # id: github-app-id
-    # privateKey: github_app_private_key.pem
+    # privateKeyBase64: github_app_private_key.pem
   gitlab:
     enabled: false
 # The worker pool is a component of the Porter deployment which contains
