@@ -276,7 +276,7 @@ spec:
           - key: github-app-private-key
             path: github_app_private_key.pem
       {{- end }}
-        secret:
+      - secret:
           secretName: {{ include "porter.fullname" . }}-nats-secret
         name: nat-config
       {{- with .Values.nodeSelector }}
