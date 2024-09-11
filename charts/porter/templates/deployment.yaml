@@ -266,7 +266,7 @@ spec:
             mountPath: /porter/docker
           {{- end }}
           - mountPath: /porter/mtls
-            name: nat-config
+            name: nats-config
       volumes:
       {{- if .Values.server.githubApp.enabled }}
       - name: github-app-private-key
@@ -278,7 +278,7 @@ spec:
       {{- end }}
       - secret:
           secretName: {{ include "porter.fullname" . }}-nats-secret
-        name: nat-config
+        name: nats-config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
