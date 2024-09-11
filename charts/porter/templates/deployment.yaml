@@ -135,20 +135,11 @@ spec:
                 name: {{ include "porter.fullname" . }}-nats-secret
                 key: password
           - name: NATS_CA_FILE
-            valueFrom:
-              secretKeyRef:
-                name: {{ include "porter.fullname" . }}-nats-secret
-                key: caFile
+            value: /porter/mtls/ca.pem
           - name: NATS_CERT_FILE
-            valueFrom:
-              secretKeyRef:
-                name: {{ include "porter.fullname" . }}-nats-secret
-                key: certFile
+            value: /porter/mtls/client.pem
           - name: NATS_KEY_FILE
-            valueFrom:
-              secretKeyRef:
-                name: {{ include "porter.fullname" . }}-nats-secret
-                key: keyFile
+            value: /porter/mtls/client-key.pem
           - name: ADMIN_INIT
             value: "false"
           - name: COOKIE_SECRETS
@@ -284,6 +275,12 @@ spec:
           - name: github-app-private-key
             mountPath: /porter/docker
           {{- end }}
+          - name: caValue
+            mountPath: /porter/mtls
+          - name: keyValue
+            mountPath: /porter/mtls
+          - name: certValue
+            mountPath: /porter/mtls
       volumes:
       {{- if .Values.ingress.enabled }}
       - name: wss-ssl-certificate
@@ -298,6 +295,21 @@ spec:
           - key: github-app-private-key
             path: github_app_private_key.pem
       {{- end }}
+        secret:
+          secretName: {{ include "porter.fullname" . }}-nats-secret
+          items:
+          - key: caValue
+            path: ca.pem
+        secret:
+          secretName: {{ include "porter.fullname" . }}-nats-secret
+          items:
+          - key: certValue
+            path: client.pem
+        secret:
+          secretName: {{ include "porter.fullname" . }}-nats-secret
+          items:
+          - key: keyValue
+            path: client-key.pem
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

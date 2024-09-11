@@ -33,7 +33,6 @@ server:
   gateWayUpstreamID: ""
   buildClusterID: ""
   # -- Specifies a secret to be mounted on /etc/mtls for mtls usage
-  mtlsExistingSecret: ""
   redis: 
     enabled: true
   # port: 5432
@@ -44,9 +43,9 @@ server:
   # url: 5432
   # username: porter
   # password: porter
-  # caFile: /etc/mtls/ca.crt
-  # keyFile: /etc/mtls/ca.crt
-  # certFile: /etc/mtls/ca.crt
+  # caValue: ""
+  # keyValue: ""
+  # certValue: ""
 
   additionalEnv: {}
   # COOKIE_INSECURE: true
