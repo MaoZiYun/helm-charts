@@ -136,6 +136,8 @@ spec:
             value: /porter/mtls/client-key.pem
           - name: ADMIN_INIT
             value: "false"
+          - name: COOKIE_INSECURE
+            value: "true"
           - name: COOKIE_SECRETS
             valueFrom:
               secretKeyRef:
