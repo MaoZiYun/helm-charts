@@ -65,9 +65,9 @@ spec:
           - name: HELM_ADD_ON_REPO_URL
             value: {{ .Values.server.defaultHelmAddOnRepo }}
           - name: GATE_WAY_UPSTREAM_ID
-            value: {{ .Values.server.gateWayUpstreamID }}
+            value: {{ .Values.server.gateWayUpstreamID | quote }}
           - name: BUILD_CLUSTER_ID
-            value: {{ .Values.server.buildClusterID }}
+            value: {{ .Values.server.buildClusterID | quote }}
           - name: BUILD_NATS_SECRET_NAME
             value: {{ .Values.server.buildNatsSecretName }}
           - name: SQL_LITE
