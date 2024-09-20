@@ -32,6 +32,7 @@ server:
   url: http://localhost:8080
   gateWayUpstreamID: ""
   buildClusterID: ""
+  buildNatsSecretName: ""
   # -- Specifies a secret to be mounted on /etc/mtls for mtls usage
   redis: 
     enabled: true

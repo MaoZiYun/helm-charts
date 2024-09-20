@@ -68,6 +68,8 @@ spec:
             value: {{ .Values.server.gateWayUpstreamID }}
           - name: BUILD_CLUSTER_ID
             value: {{ .Values.server.buildClusterID }}
+          - name: BUILD_NATS_SECRET_NAME
+            value: {{ .Values.server.buildNatsSecretName }}
           - name: SQL_LITE
             value: "false"
           - name: DB_PORT
