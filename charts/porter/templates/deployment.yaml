@@ -117,6 +117,28 @@ spec:
                 name: {{ include "porter.fullname" . }}-redis-db-secret
                 key: password
           {{- end }}
+          {{- if .Values.server.storage.enabled }}
+          - name: STORAGE_ENDPOINT
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-storage-secret
+                key: endpoint
+          - name: STORAGE_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-storage-secret
+                key: accessKey
+          - name: STORAGE_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-storage-secret
+                key: secretKey
+          - name: STORAGE_BUCKET_NAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-storage-secret
+                key: bucketName
+          {{- end }}
           - name: NATS_URL
             valueFrom:
               secretKeyRef:

@@ -34,7 +34,12 @@ server:
   buildClusterID: ""
   buildNatsSecretName: ""
   buildBosSecretName: ""
-
+  storage: 
+    enabled: false
+  # endpoint: 
+  # accessKey: my-host
+  # secretKey: porter
+  # bucketName: porter
   # -- Specifies a secret to be mounted on /etc/mtls for mtls usage
   redis: 
     enabled: true
