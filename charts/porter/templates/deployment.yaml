@@ -64,6 +64,8 @@ spec:
             value: {{ .Values.server.defaultHelmAppRepo }}
           - name: HELM_ADD_ON_REPO_URL
             value: {{ .Values.server.defaultHelmAddOnRepo }}
+          - name: ANALYTICS_SERVER_URL
+            value: {{ .Values.server.analyticsServerURL }}
           - name: GATE_WAY_UPSTREAM_ID
             value: {{ .Values.server.gateWayUpstreamID | quote }}
           - name: BUILD_CLUSTER_ID

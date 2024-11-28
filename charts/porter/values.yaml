@@ -32,6 +32,7 @@ server:
   url: http://localhost:8080
   gateWayUpstreamID: ""
   buildClusterID: ""
+  analyticsServerURL: ""
   buildNatsSecretName: ""
   buildBosSecretName: ""
   storage: 
