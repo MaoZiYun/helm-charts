@@ -49,6 +49,7 @@ server:
   # username: porter
   # password: porter
   nats: 
+    caEnable: "true"
   # url: 5432
   # username: porter
   # password: porter

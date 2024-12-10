@@ -158,6 +158,8 @@ spec:
                 key: password
           - name: NATS_CA_FILE
             value: /porter/mtls/ca.pem
+          - name: NATS_CA_ENABLE
+            value: {{ .Values.server.nats.caEnable }}
           - name: NATS_CERT_FILE
             value: /porter/mtls/client.pem
           - name: NATS_KEY_FILE
