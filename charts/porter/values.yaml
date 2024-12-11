@@ -43,13 +43,13 @@ server:
   # bucketName: porter
   # -- Specifies a secret to be mounted on /etc/mtls for mtls usage
   redis: 
-    enabled: true
+    enabled: "true"
   # port: 5432
   # host: my-host
   # username: porter
   # password: porter
   nats: 
-    caEnable: "true"
+    caEnable: true
   # url: 5432
   # username: porter
   # password: porter

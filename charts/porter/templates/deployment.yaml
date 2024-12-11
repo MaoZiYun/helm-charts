@@ -156,14 +156,15 @@ spec:
               secretKeyRef:
                 name: {{ include "porter.fullname" . }}-nats-secret
                 key: password
+
+          {{- if .Values.server.nats.caEnable }}
           - name: NATS_CA_FILE
             value: /porter/mtls/ca.pem
-          - name: NATS_CA_ENABLE
-            value: {{ .Values.server.nats.caEnable }}
           - name: NATS_CERT_FILE
             value: /porter/mtls/client.pem
           - name: NATS_KEY_FILE
             value: /porter/mtls/client-key.pem
+          {{- end }}
           - name: ADMIN_INIT
             value: "false"
           - name: COOKIE_INSECURE
