@@ -52,6 +52,8 @@ spec:
             value: /porter/static
           - name: SERVER_PORT
             value: {{ .Values.server.port | quote }}
+          - name: APP_ROOT_DOMAIN
+            value: {{ .Values.server.rootDomain }}
           - name: SERVER_TIMEOUT_READ
             value: "5s"
           - name: SERVER_TIMEOUT_WRITE

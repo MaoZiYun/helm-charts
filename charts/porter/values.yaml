@@ -13,6 +13,7 @@ server:
   # to automatically connect to the k8s cluster that the Porter instance is running in. 
   initInCluster: false
   port: 8080
+  rootDomain: "maozi.io"
   # setAdminRBAC allows the Porter dashboard system:masters access to the cluster, otherwise a separate clusterrole
   # is created for the Porter user.
   setAdminRBAC: false
