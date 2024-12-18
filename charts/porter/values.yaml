@@ -90,6 +90,11 @@ server:
     # privateKeyBase64: github_app_private_key.pem
   gitlab:
     enabled: false
+  giteeApp:
+    enabled: false
+    # clientId: github-app-client-id
+    # clientSecret: github-app-client-secret
+    # webhookSecret: github-app-webhook-secret
 # The worker pool is a component of the Porter deployment which contains
 # a list of jobs that might be trigerred in the form of Kubernetes CronJobs
 # at configurable intervals to do meaningful tasks.

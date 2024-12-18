@@ -285,6 +285,23 @@ spec:
           - name: GITHUB_APP_SECRET_PATH
             value: /porter/docker/github_app_private_key.pem
           {{- end }}
+          {{- if .Values.server.giteeApp.enabled }}
+          - name: GITEE_APP_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-integration-keys
+                key: gitee-app-client-id
+          - name: GITEE_APP_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-integration-keys
+                key: gitee-app-client-secret
+          - name: GITEE_APP_WEBHOOK_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-integration-keys
+                key: gitee-app-webhook-secret
+          {{- end }}
           {{- if .Values.server.initInCluster }}
           - name: INIT_IN_CLUSTER
             value: "false"
