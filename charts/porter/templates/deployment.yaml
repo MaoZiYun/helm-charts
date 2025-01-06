@@ -214,7 +214,7 @@ spec:
           - name: BASIC_LOGIN_ENABLED
             value: {{ .Values.server.basicLogin.enabled | quote }}
           - name: FORCE_HTTPS
-            value: {{ .Values.server.forceHttps | default "true" | quote}}
+            value: {{ .Values.server.forceHttps | quote}}
           {{- if .Values.server.slack.enabled }}
           - name: SLACK_CLIENT_ID
             valueFrom:
