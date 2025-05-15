@@ -37,6 +37,7 @@ server:
   analyticsServerURL: ""
   buildNatsSecretName: ""
   buildBosSecretName: ""
+  registryURL: ""
   storage: 
     enabled: false
   # endpoint: 

@@ -76,6 +76,8 @@ spec:
             value: {{ .Values.server.buildNatsSecretName }}
           - name: BUILD_BOS_SECRET_NAME
             value: {{ .Values.server.buildBosSecretName }}
+          - name: REGISTRY_URL
+            value: {{ .Values.server.registryURL }}
           - name: SQL_LITE
             value: "false"
           - name: DB_PORT
