@@ -34,6 +34,7 @@ server:
   url: http://localhost:8080
   gateWayUpstreamID: ""
   buildClusterID: ""
+  runClusterID: ""
   analyticsServerURL: ""
   buildNatsSecretName: ""
   buildBosSecretName: ""
@@ -64,8 +65,8 @@ server:
   # COOKIE_INSECURE: true
   # ADMIN_EMAIL: test@example.com
 
-  defaultHelmAppRepo: "https://charts.getporter.dev"
-  defaultHelmAddOnRepo: "https://chart-addons.getporter.dev"
+  defaultHelmAppRepo: "https://chartmuseum.maoziyun.com/"
+  defaultHelmAddOnRepo: "https://chart-addons.maoziyun.com"
   # INTEGRATIONS:
   basicLogin:
     enabled: true

@@ -72,6 +72,8 @@ spec:
             value: {{ .Values.server.gateWayUpstreamID | quote }}
           - name: BUILD_CLUSTER_ID
             value: {{ .Values.server.buildClusterID | quote }}
+          - name: RUN_CLUSTER_ID
+            value: {{ .Values.server.runClusterID | quote }}
           - name: BUILD_NATS_SECRET_NAME
             value: {{ .Values.server.buildNatsSecretName }}
           - name: BUILD_BOS_SECRET_NAME
