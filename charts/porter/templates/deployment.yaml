@@ -78,8 +78,12 @@ spec:
             value: {{ .Values.server.buildNatsSecretName }}
           - name: BUILD_BOS_SECRET_NAME
             value: {{ .Values.server.buildBosSecretName }}
-          - name: REGISTRY_URL
-            value: {{ .Values.server.registryURL }}
+          - name: HARBOR_REGISTRY_URL
+            value: {{ .Values.server.harbor.registryURL }}
+          - name: HARBOR_USERNAME
+            value: {{ .Values.server.harbor.username }}
+          - name: HARBOR_PASSWORD
+            value: {{ .Values.server.harbor.password }}
           - name: SQL_LITE
             value: "false"
           - name: DB_PORT
