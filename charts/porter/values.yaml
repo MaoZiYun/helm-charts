@@ -187,6 +187,7 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
+  externalIPs: []
 ingress:
   enabled: false
   annotations: {}
