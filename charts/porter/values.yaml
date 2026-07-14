@@ -35,6 +35,7 @@ server:
   gateWayUpstreamID: ""
   buildClusterID: ""
   runClusterID: ""
+  registryID: ""
   analyticsServerURL: ""
   buildNatsSecretName: ""
   buildBosSecretName: ""
