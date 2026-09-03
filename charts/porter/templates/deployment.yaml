@@ -68,6 +68,17 @@ spec:
             value: {{ .Values.server.defaultHelmAddOnRepo }}
           - name: ANALYTICS_SERVER_URL
             value: {{ .Values.server.analyticsServerURL }}
+          - name: BILLING_SERVER_URL
+            value: {{ .Values.server.billingServerURL | quote }}
+          - name: BILLING_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-integration-keys
+                key: billing-api-key
+          - name: BILLING_PLAN_ID
+            value: {{ .Values.server.billingPlanID | quote }}
+          - name: DEFAULT_REGION
+            value: {{ .Values.server.defaultRegion | default "cn" | quote }}
           - name: GATE_WAY_UPSTREAM_ID
             value: {{ .Values.server.gateWayUpstreamID | quote }}
           - name: BUILD_CLUSTER_ID
