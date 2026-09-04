@@ -54,6 +54,8 @@ spec:
             value: {{ .Values.server.port | quote }}
           - name: APP_ROOT_DOMAIN
             value: {{ .Values.server.rootDomain }}
+          - name: ADDON_ROOT_DOMAIN
+            value: {{ .Values.server.addonRootDomain | quote }}
           - name: SERVER_TIMEOUT_READ
             value: "5s"
           - name: SERVER_TIMEOUT_WRITE
