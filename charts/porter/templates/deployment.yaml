@@ -4,6 +4,10 @@ metadata:
   name: {{ include "porter.fullname" . }}
   labels:
     {{- include "porter.labels" . | nindent 4 }}
+  {{- if .Values.server.agentClient.enabled }}
+  annotations:
+    secret.reloader.stakater.com/reload: {{ .Values.server.agentClient.certificate.secretName | quote }}
+  {{- end }}
 spec:
 {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -238,6 +242,29 @@ spec:
             value: {{ .Values.server.basicLogin.enabled | quote }}
           - name: FORCE_HTTPS
             value: {{ .Values.server.forceHttps | quote}}
+          {{- if .Values.server.trustDomainPubKey }}
+          - name: TRUST_DOMAIN_PUBKEY
+            value: {{ .Values.server.trustDomainPubKey | quote }}
+          {{- end }}
+          {{- if .Values.server.smtpPassword }}
+          - name: SMTP_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "porter.fullname" . }}-integration-keys
+                key: smtp-password
+          {{- end }}
+          - name: ENABLE_DESYNC_RECONCILER
+            value: {{ .Values.server.enableDesyncReconciler | quote }}
+          {{- if .Values.server.agentClient.enabled }}
+          - name: AGENT_CLIENT_CA_FILE
+            value: /porter/agent-mtls/ca.crt
+          - name: AGENT_CLIENT_CERT_FILE
+            value: /porter/agent-mtls/tls.crt
+          - name: AGENT_CLIENT_KEY_FILE
+            value: /porter/agent-mtls/tls.key
+          - name: AGENT_CLIENT_SERVER_NAME
+            value: {{ .Values.server.agentClient.serverName | quote }}
+          {{- end }}
           {{- if .Values.server.slack.enabled }}
           - name: SLACK_CLIENT_ID
             valueFrom:
@@ -344,6 +371,11 @@ spec:
           {{- end }}
           - mountPath: /porter/mtls
             name: nats-config
+          {{- if .Values.server.agentClient.enabled }}
+          - mountPath: /porter/agent-mtls
+            name: agent-client-mtls
+            readOnly: true
+          {{- end }}
       volumes:
       {{- if .Values.server.githubApp.enabled }}
       - name: github-app-private-key
@@ -356,6 +388,11 @@ spec:
       - secret:
           secretName: {{ include "porter.fullname" . }}-nats-secret
         name: nats-config
+      {{- if .Values.server.agentClient.enabled }}
+      - name: agent-client-mtls
+        secret:
+          secretName: {{ .Values.server.agentClient.certificate.secretName }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

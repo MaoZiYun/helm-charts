@@ -1,0 +1,25 @@
+{{- if .Values.server.agentClient.enabled }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "porter.fullname" . }}-agent-control-plane-client
+  labels:
+    {{- include "porter.labels" . | nindent 4 }}
+spec:
+  secretName: {{ .Values.server.agentClient.certificate.secretName }}
+  duration: {{ .Values.server.agentClient.certificate.duration }}
+  renewBefore: {{ .Values.server.agentClient.certificate.renewBefore }}
+  privateKey:
+    algorithm: {{ .Values.server.agentClient.certificate.privateKey.algorithm }}
+    size: {{ .Values.server.agentClient.certificate.privateKey.size }}
+    rotationPolicy: {{ .Values.server.agentClient.certificate.privateKey.rotationPolicy }}
+  usages:
+    - digital signature
+    - client auth
+  uris:
+    {{- toYaml .Values.server.agentClient.certificate.uris | nindent 4 }}
+  issuerRef:
+    group: {{ .Values.server.agentClient.certificate.issuerRef.group }}
+    kind: {{ .Values.server.agentClient.certificate.issuerRef.kind }}
+    name: {{ .Values.server.agentClient.certificate.issuerRef.name }}
+{{- end }}
