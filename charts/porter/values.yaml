@@ -49,11 +49,11 @@ server:
     # 开启前需集群已安装 cert-manager，且 issuerRef 指向的 issuer 已存在，
     # 否则 Secret 无法签发，Pod 会因等待挂载该 Secret 而处于 Pending。
     enabled: false
-    serverName: "spiffe://gridinfra.local/server"
+    serverName: "agent.grid-agent.svc"
     certificate:
       secretName: agent-control-plane-client-tls
-      duration: 168h
-      renewBefore: 48h
+      duration: 720h
+      renewBefore: 168h
       privateKey:
         algorithm: ECDSA
         size: 256
@@ -63,7 +63,7 @@ server:
       issuerRef:
         group: certmanager.step.sm
         kind: StepClusterIssuer
-        name: control-plane-client-issuer
+        name: cluster-issuer
   buildNatsSecretName: ""
   buildBosSecretName: ""
   storage: 
